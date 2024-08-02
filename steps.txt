@@ -17,3 +17,11 @@ Adicionar os Serviços no Program
 Executar o Xampp e o MySql
 
 Criar e Executar a Migração de Dados
+
+Instalar ferramenta de Migração
+
+dotnet tool install --global dotnet-ef --version 8.0.7
+
+dotnet ef migrations add inicializando-banco
+
+dotnet ef database update

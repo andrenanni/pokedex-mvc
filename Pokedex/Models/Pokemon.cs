@@ -42,5 +42,5 @@ public class Pokemon
     [StringLength(400)]
     public string Animacao { get; set; }
 
-    public ICollection<PokemonTipo> Pokemons { get; set; }
+    public ICollection<PokemonTipo> Tipos { get; set; }
 }
