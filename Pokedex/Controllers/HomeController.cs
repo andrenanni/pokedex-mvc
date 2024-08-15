@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Pokedex.Data;
 using Pokedex.Models;
 using Pokedex.ViewModels;
@@ -24,6 +25,26 @@ public class HomeController : Controller
             Tipos = _context.Tipos.ToList()
         };
         return View();
+    }
+
+    public IActionResult Details(int id)
+    {
+        Pokemon pokemon = _context.Pokemons
+                        .Where(p => p.Numero == id)
+                        .Include(p => p.Tipos)
+                        .ThenInclude(t => t.Tipo)
+                        .Include(p => p.Regiao)
+                        .Include(p => p.Genero)
+                        .SingleOrDefault();
+
+        DetailVM detailVM = new()
+        {
+            Atual = pokemon,
+            Anterior = _context.Pokemons.OrderByDescending(p => p.Numero).FirstOrDefault(p => p.Numero < id),
+            Proximo = _context.Pokemons.OrderBy(p => p.Numero).FirstOrDefault(p => p.Numero > id)
+        };
+
+        return View(DetailVM);
     }
 
     public IActionResult Privacy()
